@@ -47,4 +47,3 @@ The displayed mod name is **Staturefy**. The Fabric mod ID remains `chibiplayer`
 ## License
 
 The source code is available under the MIT License; see [LICENSE](LICENSE).
-

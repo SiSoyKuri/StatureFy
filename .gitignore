@@ -1,0 +1,12 @@
+.gradle/
+.gradle-user-home/
+build/
+run/
+old-mod/
+assets/staturefy-icon-generated.png
+.idea/
+.vscode/
+*.iml
+*.log
+hs_err_pid*
+replay_pid*
