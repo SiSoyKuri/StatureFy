@@ -1,0 +1,81 @@
+plugins {
+    id 'net.fabricmc.fabric-loom' version "${loom_version}"
+}
+
+def modVersion = providers.gradleProperty("mod_version").get()
+def minecraftVersion = providers.gradleProperty("minecraft_version").get()
+version = "${modVersion}+${minecraftVersion}"
+group = project.maven_group
+base {
+    archivesName = project.archives_base_name
+}
+
+repositories {
+    mavenCentral()
+    maven {
+        name = "Terraformers"
+        url = "https://maven.terraformersmc.com/"
+    }
+}
+
+loom {
+    splitEnvironmentSourceSets()
+    mods {
+        "chibiplayer" {
+            sourceSet sourceSets.main
+            sourceSet sourceSets.client
+        }
+    }
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    implementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
+    compileOnly "com.terraformersmc:modmenu:${project.modmenu_version}"
+}
+
+processResources {
+    inputs.property "version", project.version
+    filesMatching("fabric.mod.json") {
+        expand "version": project.version
+    }
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(25)
+    }
+}
+
+tasks.named("jar") {
+    archiveClassifier = "fabric"
+}
+
+tasks.register("verifyReleaseVersion") {
+    group = "verification"
+    description = "Checks that a v<version> release tag matches mod_version and has a changelog entry."
+    doLast {
+        def releaseVersion = providers.gradleProperty("releaseModVersion").orNull
+        if (!releaseVersion) {
+            throw new GradleException("Pass -PreleaseModVersion=<version from the v<version> tag>")
+        }
+        if (releaseVersion != modVersion) {
+            throw new GradleException("Release tag version ${releaseVersion} does not match mod_version=${modVersion}")
+        }
+        def lines = rootProject.file("CHANGELOG.md").readLines()
+        def heading = "## [${releaseVersion}]"
+        def start = lines.findIndexOf { it == heading || it.startsWith("${heading} ") }
+        if (start < 0) {
+            throw new GradleException("CHANGELOG.md is missing heading: ${heading}")
+        }
+        def section = lines.drop(start + 1).takeWhile { !it.startsWith("## [") }.join("\n").trim()
+        if (section.isEmpty()) {
+            throw new GradleException("CHANGELOG.md section is empty: ${heading}")
+        }
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.release = 25
+}

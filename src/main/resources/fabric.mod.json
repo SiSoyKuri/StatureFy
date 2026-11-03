@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "id": "chibiplayer",
+  "version": "${version}",
+  "name": "Staturefy",
+  "description": "Client-side body profiles for player avatars.",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "dev.chibi.player.StaturefyClient"
+    ],
+    "modmenu": [
+      "dev.chibi.player.StaturefyModMenu"
+    ]
+  },
+  "mixins": [
+    {
+      "config": "chibiplayer.client.mixins.json",
+      "environment": "client"
+    }
+  ],
+  "depends": {
+    "fabricloader": ">=0.19.5",
+    "minecraft": "~26.3",
+    "java": ">=25",
+    "fabric-api": "*"
+  },
+  "suggests": {
+    "modmenu": "*"
+  }
+}

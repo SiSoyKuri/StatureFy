@@ -1,0 +1,11 @@
+.gradle/
+.gradle-user-home/
+build/
+run/
+old-mod/
+.idea/
+.vscode/
+*.iml
+*.log
+hs_err_pid*
+replay_pid*

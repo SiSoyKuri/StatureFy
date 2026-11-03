@@ -1,0 +1,16 @@
+{
+  "required": true,
+  "package": "dev.chibi.player.mixin",
+  "compatibilityLevel": "JAVA_25",
+  "client": [
+    "LivingEntityRendererMixin",
+    "ModelFeatureRendererMixin",
+    "ModelMixin",
+    "ModelPartRenderScopeMixin",
+    "SmoothPlayerAnimationsArmorModelMixin",
+    "SmoothPlayerAnimationsArmorBendMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
