@@ -14,14 +14,20 @@ final class ProfileCardButton extends Button {
     private final BodyProfile profile;
     private final Font font;
     private final BooleanSupplier selected;
+    private final float u;
 
-    ProfileCardButton(int x, int y, int width, int height, BodyProfile profile, Font font,
+    ProfileCardButton(int x, int y, int width, int height, BodyProfile profile, Font font, float u,
                       BooleanSupplier selected, Runnable onSelect) {
         super(x, y, width, height, Component.translatable(profile.translationKey()), button -> onSelect.run(),
                 DEFAULT_NARRATION);
         this.profile = profile;
         this.font = font;
         this.selected = selected;
+        this.u = u;
+    }
+
+    BodyProfile profile() {
+        return profile;
     }
 
     @Override
@@ -31,32 +37,45 @@ final class ProfileCardButton extends Button {
         int right = x + getWidth();
         int bottom = y + getHeight();
         boolean active = selected.getAsBoolean();
-        int border = active ? 0xFF40D52A : isHoveredOrFocused() ? 0xFFFFC247 : 0xFF242424;
+        int bg = isHoveredOrFocused() ? 0xFF383838 : 0xFF333333;
 
-        graphics.fill(x, y, right, bottom, 0xFF242424);
-        graphics.fill(x + 2, y + 2, right - 2, bottom - 2, isHovered() ? 0xFF5A5A5A : 0xFF4B4B4B);
-        graphics.fill(x, y, right, y + 2, border);
-        graphics.fill(x, bottom - 2, right, bottom, border);
-        graphics.fill(x, y, x + 2, bottom, border);
-        graphics.fill(right - 2, y, right, bottom, border);
+        graphics.fill(x, y, right, bottom, bg);
+        // Todas las tarjetas: borde dorado + esquinas celestes; verde si está seleccionada.
+        int c = active ? 0xFF3FD35A : 0xFFFFD45A;
+        int k = active ? 0xFF9FFFA8 : 0xFF4FD8E8;
+        graphics.fill(x, y, right, y + 1, c);
+        graphics.fill(x, bottom - 1, right, bottom, c);
+        graphics.fill(x, y, x + 1, bottom, c);
+        graphics.fill(right - 1, y, right, bottom, c);
+        graphics.fill(x + 1, y + 1, x + 3, y + 3, k);
+        graphics.fill(right - 3, y + 1, right - 1, y + 3, k);
+        graphics.fill(x + 1, bottom - 3, x + 3, bottom - 1, k);
+        graphics.fill(right - 3, bottom - 3, right - 1, bottom - 1, k);
 
         int labelTop = bottom - LABEL_HEIGHT - 2;
         graphics.fill(x + 2, labelTop, right - 2, bottom - 2, 0xFFC7C7C7);
-        drawFigure(graphics, x + getWidth() / 2, y + 5, labelTop - (y + 5));
+        graphics.pose().pushMatrix();
+        graphics.pose().scale(u, u);
         graphics.centeredText(font,
                 Component.translatable(profile.translationKey()).withStyle(ChatFormatting.BOLD),
-                x + getWidth() / 2, labelTop + 6, 0xFF202020);
+                Math.round((x + getWidth() / 2) / u), Math.round((labelTop + 6) / u), 0xFF3A3A3A);
+        graphics.pose().popMatrix();
+        drawFigure(graphics, x + getWidth() / 2, y + 6, labelTop - (y + 8));
     }
 
     private void drawFigure(GuiGraphicsExtractor graphics, int centerX, int top, int availableHeight) {
+        // Amplificamos las diferencias de escala para que se distingan a simple vista
+        // (vanilla 1.0 vs alto 1.06 sería invisible sin esto). Manteniendo el centro.
+        float vy = Math.max(0.55F, Math.min(1.35F, 1.0F + (profile.bodyScaleY() - 1.0F) * 2.5F));
+        float vx = Math.max(0.55F, Math.min(1.35F, 1.0F + (profile.bodyScaleX() - 1.0F) * 2.5F));
         float headFactor = profile.headScale();
-        float bodyFactor = profile.bodyScaleY();
+        float bodyFactor = vy;
         float totalUnits = 5.0F * headFactor + 7.0F * bodyFactor + 6.0F * bodyFactor;
-        float unit = Math.min(3.2F, availableHeight / totalUnits);
+        float unit = Math.min(3.6F, (availableHeight - 2) / totalUnits);
 
         int headWidth = Math.round(6.0F * headFactor * unit);
         int headHeight = Math.round(5.0F * headFactor * unit);
-        int torsoWidth = Math.round(6.0F * unit);
+        int torsoWidth = Math.round(6.0F * vx * unit);
         int torsoHeight = Math.round(7.0F * bodyFactor * unit);
         int armWidth = Math.max(2, Math.round(1.7F * unit));
         int armHeight = Math.max(2, Math.round(torsoHeight * 0.8F));

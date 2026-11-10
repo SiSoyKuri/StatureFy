@@ -60,8 +60,12 @@ public final class PlayerProfilesScreen extends Screen {
         query = initialQuery;
         page = requestedPage;
         refreshRows();
-        addRenderableWidget(Button.builder(Component.translatable("staturefy.common.done"), button -> onClose())
-            .bounds(width / 2 - 100, height - 30, 200, 20).build());
+        float u = height / 360.0F;
+        int doneWidth = Math.min(200, Math.min(Math.round(260 * u), width - 40));
+        addRenderableWidget(new StaturefyConfigScreen.TwoLineButton(
+            width / 2 - doneWidth / 2, height - Math.round(32 * u),
+            doneWidth, Math.round(24 * u),
+            Component.translatable("staturefy.common.done"), font, u, button -> onClose()));
         setInitialFocus(searchBox);
     }
 

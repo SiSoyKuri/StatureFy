@@ -3,6 +3,9 @@
   "package": "dev.chibi.player.mixin",
   "compatibilityLevel": "JAVA_25",
   "client": [
+    "AvatarRenderStateMixin",
+    "FontManagerAccessor",
+    "MinecraftAccessor",
     "LivingEntityRendererMixin",
     "ModelFeatureRendererMixin",
     "ModelMixin",

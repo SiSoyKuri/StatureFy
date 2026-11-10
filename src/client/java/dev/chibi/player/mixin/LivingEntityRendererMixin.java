@@ -1,6 +1,7 @@
 package dev.chibi.player.mixin;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import dev.chibi.player.AvatarPreviewDuck;
 import dev.chibi.player.BodyProfile;
 import dev.chibi.player.BodyProfiles;
 import dev.chibi.player.StaturefyConfig;
@@ -36,7 +37,8 @@ public abstract class LivingEntityRendererMixin {
         if (!(state instanceof AvatarRenderState avatar)) {
             return;
         }
-        BodyProfile profile = StaturefyConfig.profileFor(avatar);
+        BodyProfile forced = ((AvatarPreviewDuck) avatar).staturefy$previewProfile();
+        BodyProfile profile = forced != null ? forced : StaturefyConfig.profileFor(avatar);
         poseStack.pushPose();
         if (profile.bodyScaleY() != 1.0F && state.nameTagAttachment != null) {
             // The name tag is submitted inside this scaled pose, so its anchor
@@ -85,7 +87,8 @@ public abstract class LivingEntityRendererMixin {
         if (!(state instanceof AvatarRenderState avatar)) {
             return;
         }
-        BodyProfile profile = StaturefyConfig.profileFor(avatar);
+        BodyProfile forced = ((AvatarPreviewDuck) avatar).staturefy$previewProfile();
+        BodyProfile profile = forced != null ? forced : StaturefyConfig.profileFor(avatar);
         if (profile.headScale() == 1.0F || !((Object) this instanceof LivingEntityRenderer<?, ?, ?> renderer)
                 || !(renderer.getModel() instanceof HumanoidModel<?> model)) {
             return;

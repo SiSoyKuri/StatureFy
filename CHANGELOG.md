@@ -1,5 +1,23 @@
 # Changelog
 
+## [1.0.1] - 2026-11-11
+
+### Added
+- Config screen uses the Silkscreen pixel font for all its text, with automatic fallback to the vanilla font for unsupported scripts (Japanese, Chinese, Korean, Russian and more).
+- Player profiles screen redesigned to match the main configuration screen style, including its gold Done button.
+
+### Fixed
+- Player name tags now render at a mid-height offset, staying visible for players of every height profile.
+- Bottom button centering bug in the configuration screen (it was drawn offset to the left).
+- Font loading failure that rendered every glyph of the config screen as empty boxes (TTF path and definition format corrected for Minecraft 26.3).
+
+### Changed
+- Profile cards redesigned: gold border with cyan corners on every card, turning green when selected.
+- Body scale differences between profiles are now visually amplified in the card figures, making Vanilla vs. Tall clearly distinguishable while staying centered.
+- Improved text legibility across the menu: dark gray text on cards and light text on gold buttons.
+- "Staturefy" title moved up and recolored green.
+- All menu text now scales proportionally across every GUI scale, using the x3 scale as the reference design.
+
 ## [1.0.0] - 2026-11-07
 
 ### Added
@@ -18,12 +36,4 @@
 ## [0.1.0] - 2026-11-03
 
 ### Added
-- Client-side Vanilla and Chibi body profiles for the local player and other players.
-- Global and per-player display settings, saved locally and configurable through Mod Menu.
-- `/staturefy` and `/staturefy config` commands for opening the settings screen.
-- Rendering integration for player proportions while preserving the vanilla hitbox and existing player renderer.
-- Compatibility handling for SmoothPlayerAnimations CEM armor helmets.
-
-### Notes
-- Initial public release candidate for Minecraft 26.3 and Fabric.
-- Compatibility with third-party mods and resource packs should be reported with their exact versions and settings.
+- Initial release: client-side body profile system with Vanilla, Chibi, Teen and Tall profiles, per-player and global configuration, in-game preview, hitboxes unchanged.
