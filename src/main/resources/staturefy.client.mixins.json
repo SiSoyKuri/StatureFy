@@ -8,7 +8,8 @@
     "ModelMixin",
     "ModelPartRenderScopeMixin",
     "SmoothPlayerAnimationsArmorModelMixin",
-    "SmoothPlayerAnimationsArmorBendMixin"
+    "SmoothPlayerAnimationsArmorBendMixin",
+    "PatPatRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1

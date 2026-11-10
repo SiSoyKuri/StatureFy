@@ -34,7 +34,7 @@ Use JDK 25 and run:
 .\gradlew.bat jar
 ```
 
-The distributable JAR is written to `build\libs\staturefy-0.1.0+26.3-fabric.jar`.
+The distributable JAR is written to `build\libs\staturefy-1.0.0+26.3-fabric.jar`.
 
 ## Compatibility reports
 
@@ -42,7 +42,7 @@ Include the Minecraft version, Fabric Loader/API versions, Staturefy version, af
 
 ## Project identity
 
-The displayed mod name is **Staturefy**. The Fabric mod ID remains `chibiplayer` to preserve existing installations and configuration identity.
+The Fabric mod ID is `staturefy`. Existing settings remain in `config/staturefy.json`.
 
 ## License
 

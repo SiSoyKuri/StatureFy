@@ -60,15 +60,32 @@ public final class PlayerProfilesScreen extends Screen {
         query = initialQuery;
         page = requestedPage;
         refreshRows();
-        addRenderableWidget(Button.builder(Component.translatable("gui.done"), button -> onClose())
+        addRenderableWidget(Button.builder(Component.translatable("staturefy.common.done"), button -> onClose())
             .bounds(width / 2 - 100, height - 30, 200, 20).build());
         setInitialFocus(searchBox);
     }
 
     @Override
+    public void extractBackground(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
+        super.extractBackground(graphics, mouseX, mouseY, partialTick);
+        int center = width / 2;
+        int left = Math.max(12, center - 180);
+        int right = Math.min(width - 12, center + 180);
+        int top = 0;
+        int bottom = height - 4;
+        graphics.fill(left, top, right, bottom, 0xD9212428);
+        graphics.fill(left, top, right, top + 2, 0xFFFFB52D);
+        graphics.fill(left, bottom - 2, right, bottom, 0xFFFFB52D);
+        graphics.fill(left, top, left + 2, bottom, 0xFF777777);
+        graphics.fill(right - 2, top, right, bottom, 0xFF777777);
+    }
+
+    @Override
     public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
         super.extractRenderState(graphics, mouseX, mouseY, partialTick);
-        graphics.centeredText(font, Component.translatable("staturefy.players.help"), width / 2, 38, 0xFFFFFFFF);
+        graphics.centeredText(font, Component.translatable("staturefy.players.help"), width / 2, 38, 0xFFD0D0D0);
+        graphics.fill(Math.max(12, width / 2 - 150), 48, Math.min(width - 12, width / 2 + 150), 49,
+            0xFFFFB52D);
         if (allPlayers.isEmpty()) {
             graphics.centeredText(font, Component.translatable("staturefy.players.empty"), width / 2,
                 height / 2, 0xFFFFFFFF);
@@ -121,7 +138,8 @@ public final class PlayerProfilesScreen extends Screen {
                     cycleProfile(player);
                     button.setMessage(playerLabel(player));
                 })
-                .bounds(center - 140, y, 280, ROW_HEIGHT).build()));
+                .bounds(center - Math.min(160, (width - 40) / 2), y,
+                    Math.min(320, width - 40), ROW_HEIGHT).build()));
         }
 
         if (page > 0) {

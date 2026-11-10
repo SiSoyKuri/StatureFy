@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.0] - 2026-11-07
+
+### Changed
+- Finalized the first stable release as Staturefy 1.0.0.
+- Changed the Fabric mod ID and asset namespace from `chibiplayer` to `staturefy`.
+- Updated the Mod Menu icon to the new Staturefy logo.
+
 ## [0.1.0] - 2026-11-03
 
 ### Added

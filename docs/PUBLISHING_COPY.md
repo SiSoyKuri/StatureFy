@@ -40,8 +40,8 @@ Rendering and animation compatibility depends on the exact versions and settings
 
 ## Release file
 
-- File name: `staturefy-0.1.0+26.3-fabric.jar`
-- Release version: `0.1.0+26.3`
+- File name: `staturefy-1.0.0+26.3-fabric.jar`
+- Release version: `1.0.0+26.3`
 - Supported game version: `26.3`
 - Loader: Fabric
 - Environment: Client

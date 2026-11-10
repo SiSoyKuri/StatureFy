@@ -1,8 +1,9 @@
 {
   "schemaVersion": 1,
-  "id": "chibiplayer",
+  "id": "staturefy",
   "version": "${version}",
   "name": "Staturefy",
+  "icon": "assets/staturefy/icon.png",
   "description": "Client-side body profiles for player avatars.",
   "environment": "client",
   "entrypoints": {
@@ -15,7 +16,7 @@
   },
   "mixins": [
     {
-      "config": "chibiplayer.client.mixins.json",
+      "config": "staturefy.client.mixins.json",
       "environment": "client"
     }
   ],

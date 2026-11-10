@@ -32,8 +32,8 @@ public final class StaturefyConfig {
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
     private static final Path FILE = FabricLoader.getInstance().getConfigDir().resolve("staturefy.json");
     private static final Map<UUID, PlayerOverride> PLAYER_OVERRIDES = new LinkedHashMap<>();
-    private static String localProfile = BodyProfiles.CHIBI.id();
-    private static String othersProfile = BodyProfiles.CHIBI.id();
+    private static String localProfile = BodyProfiles.VANILLA.id();
+    private static String othersProfile = BodyProfiles.VANILLA.id();
     private static boolean loaded;
 
     private StaturefyConfig() {

@@ -3,13 +3,13 @@
 ## Current release metadata
 
 - Display name: Staturefy
-- Stable Fabric mod ID: `chibiplayer` (keep this to preserve existing installations/configuration)
-- Current project version: `0.1.0`
+- Stable Fabric mod ID: `staturefy`
+- Current project version: `1.0.0`
 - Minecraft: `26.3`
 - Loader: Fabric (`0.19.5` minimum)
 - Java: `25`
 - Runtime: client only
-- Artifact: `build/libs/staturefy-0.1.0+26.3-fabric.jar`
+- Artifact: `build/libs/staturefy-1.0.0+26.3-fabric.jar`
 - Required dependency: Fabric API
 - Optional integration: Mod Menu
 
@@ -26,13 +26,13 @@
 
 1. Update `mod_version` in `gradle.properties` and add a matching section to `CHANGELOG.md`.
 2. Build and inspect the JAR with JDK 25: `./gradlew jar` (Windows: `./gradlew.bat jar`).
-3. Commit the release-ready changes and tag the commit `v<mod_version>` (for example, `v0.1.0`).
+3. Commit the release-ready changes and tag the commit `v<mod_version>` (for example, `v1.0.0`).
 4. Push the commit and tag. GitHub Actions validates the tag, builds the JAR, and attaches it to a GitHub Release.
 5. Upload that exact JAR to Modrinth and CurseForge, using the metadata below. Do not recompile separate platform files.
 
 ## Platform metadata
 
-Use the release version `0.1.0+26.3` for the uploaded file/version, and `v0.1.0` for the Git tag.
+Use the release version `1.0.0+26.3` for the uploaded file/version, and `v1.0.0` for the Git tag.
 
 ### Modrinth
 
