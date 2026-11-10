@@ -2,10 +2,18 @@
 
 ## [1.0.0] - 2026-11-07
 
+### Added
+- New Teen and Tall body profiles, alongside Vanilla and Chibi.
+- Rendering compatibility with PatPat: the headpat animation now scales and positions correctly according to the Chibi or Teen profile.
+- Mod icon added for Mod Menu.
+- Translations added for Argentine and Mexican Spanish, French, Indonesian, Japanese, Korean, Russian, and Simplified Chinese.
+
 ### Changed
-- Finalized the first stable release as Staturefy 1.0.0.
-- Changed the Fabric mod ID and asset namespace from `chibiplayer` to `staturefy`.
-- Updated the Mod Menu icon to the new Staturefy logo.
+- Redesigned configuration menu featuring profile cards, preview figures, and a cleaner, centered layout.
+- Positioning adjustments for Chibi while sitting on mounts.
+- Fence rendering tweaks when using Touch'n Motion's Foot IK on Chibi and Teen profiles.
+- Vanilla is now set as the default profile for both local and remote players.
+- English and European Spanish texts updated for the menu and new profiles.
 
 ## [0.1.0] - 2026-11-03
 

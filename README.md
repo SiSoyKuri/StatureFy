@@ -1,49 +1,151 @@
-# Staturefy
+# StatureFy
 
-Staturefy is a client-side visual body-profile mod for Minecraft Java Edition. It currently offers Vanilla and Chibi profiles. It does not change player dimensions, hitboxes, movement, or server data; other players do not need to install it.
+**StatureFy** is a **client-side Fabric mod** that lets players freely change the size of their own player model without affecting gameplay.
 
-## Compatibility
+Unlike mods that require server support, StatureFy works entirely on the client. Your hitbox, reach, collision, and every gameplay mechanic remain exactly the same. Only the rendered player model is scaled.
 
-- Minecraft Java Edition 26.3
-- Fabric Loader 0.19.5 or newer
-- Java 25
-- Fabric API (required)
-- Mod Menu (optional; adds the configuration button)
+This allows you to create smaller (or larger) characters while keeping full compatibility with vanilla servers and most multiplayer environments.
 
-The mod is client-only. Compatibility with rendering, animation, cosmetic, cape, skin, and resource-pack mods varies by version and setup; see the release notes and report the exact versions when filing an issue.
+## ✨ Features
 
-## Features
+- 🧍 Scale your player model independently from gameplay.
+- 🌐 Fully client-side — no server installation required.
+- 📦 Works on vanilla servers.
+- ⚔️ No hitbox modifications.
+- 🎨 Designed to be compatible with popular animation and expression mods.
 
-- Select Vanilla or Chibi for your own player model.
-- Choose the default profile used to render other players, with per-player overrides.
-- Open settings using Mod Menu or `/staturefy` and `/staturefy config`.
-- Settings are stored locally in `config/staturefy.json`.
-- Keeps vanilla gameplay dimensions and works without server installation or network synchronization.
+---
 
-## Install
+# Compatibility
 
-1. Install Minecraft 26.3 with Fabric Loader and Fabric API.
-2. Optionally install Mod Menu for its Mods-screen configuration button.
-3. Put the Staturefy Fabric JAR in the instance's `mods` folder.
+StatureFy has been built with compatibility in mind and works alongside the following projects:
+
+## ✅ [Punchy](https://modrinth.com/mod/punchy-fpa)
+
+Fully compatible with **Punchy** animations.
+
+## ✅ [Punchy Moves](https://modrinth.com/mod/punchymoves)
+
+Supports all animations from **Punchy Moves** while preserving the selected player scale.
+
+## ✅ [SmoothPlayerAnimations](https://modrinth.com/mod/smoothplayeranimations)
+
+Compatible with **SmoothPlayerAnimations**, allowing both mods to work together without breaking player animations.
+
+## ✅ [FA: Player Extension](https://modrinth.com/resourcepack/fa-player-extension)
+
+Compatible with **FA: Player Extension** and its animation system.
+
+## ✅ [Just Expressions](https://modrinth.com/resourcepack/just-expressions)
+
+Facial expressions continue to work correctly while using StatureFy.
+
+## ✅ Punchy Moves (Faces)
+
+Compatible with the facial animation extension included with Punchy Moves.
+
+## ✅ [Cosmetica](https://modrinth.com/mod/cosmetica)
+
+Cosmetica cosmetics automatically adjust to your selected player height.
+
+---
+
+# Dependencies
+
+### Required
+
+- Fabric Loader
+- Fabric API
+- Cloth Config API
+
+### Optional
+
+- Mod Menu *(recommended for quick access to the configuration screen)*
+
+---
+
+## How it works
+
+StatureFy only changes how player models are rendered on your client.
+
+Other players do **not** need to install StatureFy, and servers do not require any additional setup.
+
+Because the hitbox is never modified, gameplay remains completely vanilla while giving you complete freedom to customize your character's appearance.
+
+---
+
+## Future Plans
+
+StatureFy is just getting started! Some planned features include:
+
+- 🌍 **Server-side visibility support**
+
+  A future update is planned to allow other players to see your height changes **without requiring them to install the mod**.
+
+  This will most likely be achieved through an optional **server plugin or server-side mod**, allowing all connected players to see height changes seamlessly.
+
+- ⚙️ Additional customization options.
+- 🎨 More scaling presets and configuration improvements.
+- 🤝 Even broader compatibility with animation and cosmetic mods.
+
+---
+
+## Feedback
+
+Found a bug, compatibility issue, or have a feature suggestion?
+
+Feel free to open an Issue with as much information as possible.
+
+Feedback and contributions are always welcome!
+
+---
+
+# Installation
+
+1. Install **Minecraft 1.21.11** with **Fabric Loader**.
+2. Install **Fabric API**.
+3. Install **Cloth Config API**.
+4. *(Optional)* Install **Mod Menu** for easy access to the configuration screen.
+5. Place the **StatureFy** JAR inside your `mods` folder.
+
+---
 
 ## Build from source
 
-Use JDK 25 and run:
+### Requirements
 
-```powershell
-.\gradlew.bat jar
+- JDK 25
+
+Run:
+
+```bash
+./gradlew build
 ```
 
-The distributable JAR is written to `build\libs\staturefy-1.0.0+26.3-fabric.jar`.
+The compiled JAR will be generated inside:
+
+```
+build/libs/
+```
+
+---
 
 ## Compatibility reports
 
-Include the Minecraft version, Fabric Loader/API versions, Staturefy version, affected mod/resource-pack versions, relevant settings, and `latest.log`. Do not assume compatibility with an untested version combination.
+When reporting compatibility issues, please include:
 
-## Project identity
+- Minecraft version
+- Fabric Loader version
+- Fabric API version
+- StatureFy version
+- Versions of the affected mods/resource packs
+- Your configuration
+- `latest.log`
 
-The Fabric mod ID is `staturefy`. Existing settings remain in `config/staturefy.json`.
+This information makes it much easier to reproduce and fix the issue.
+
+---
 
 ## License
 
-The source code is available under the MIT License; see [LICENSE](LICENSE).
+The source code is available under the **MIT License**. See the [LICENSE](LICENSE) file for details.
