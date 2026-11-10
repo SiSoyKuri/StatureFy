@@ -15,6 +15,7 @@ import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -27,6 +28,7 @@ public abstract class LivingEntityRendererMixin {
     @Unique private float staturefy$headX;
     @Unique private float staturefy$headY;
     @Unique private float staturefy$headZ;
+    @Unique private Vec3 staturefy$originalNameTagAttachment;
 
     @Inject(method = "submit(Lnet/minecraft/client/renderer/entity/state/LivingEntityRenderState;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;Lnet/minecraft/client/renderer/state/level/CameraRenderState;)V", at = @At("HEAD"))
     private void staturefy$begin(LivingEntityRenderState state, PoseStack poseStack,
@@ -36,6 +38,18 @@ public abstract class LivingEntityRendererMixin {
         }
         BodyProfile profile = StaturefyConfig.profileFor(avatar);
         poseStack.pushPose();
+        if (profile.bodyScaleY() != 1.0F && state.nameTagAttachment != null) {
+            // The name tag is submitted inside this scaled pose, so its anchor
+            // is divided by a factor between the profile scale (original, low
+            // tag) and full compensation (vanilla height), landing the tag
+            // halfway between both positions.
+            float blend = 2.0F * profile.bodyScaleY() / (1.0F + profile.bodyScaleY());
+            staturefy$originalNameTagAttachment = state.nameTagAttachment;
+            state.nameTagAttachment = new Vec3(
+                    staturefy$originalNameTagAttachment.x / blend,
+                    staturefy$originalNameTagAttachment.y / blend,
+                    staturefy$originalNameTagAttachment.z / blend);
+        }
         if (Minecraft.getInstance().level != null) {
             Entity entity = Minecraft.getInstance().level.getEntity(avatar.id);
             if (entity instanceof Player player) {
@@ -95,6 +109,10 @@ public abstract class LivingEntityRendererMixin {
                 staturefy$scaledHead.yScale = staturefy$headY;
                 staturefy$scaledHead.zScale = staturefy$headZ;
                 staturefy$scaledHead = null;
+            }
+            if (staturefy$originalNameTagAttachment != null) {
+                state.nameTagAttachment = staturefy$originalNameTagAttachment;
+                staturefy$originalNameTagAttachment = null;
             }
             poseStack.popPose();
         }
