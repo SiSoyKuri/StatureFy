@@ -48,6 +48,10 @@ Compatible with the facial animation extension included with Punchy Moves.
 
 Cosmetica cosmetics automatically adjust to your selected player height.
 
+## ✅ [Touch'n Motion](https://www.curseforge.com/minecraft/mc-mods/touch-and-motion)
+
+The smooth animations and poses in different situations work for players of all heights in this mod! :)
+
 ---
 
 # Dependencies
