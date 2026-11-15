@@ -114,12 +114,12 @@ public final class StaturefyConfigScreen extends Screen {
             int groupX = center - groupWidth / 2;
             int previewY = bottomRowY + (rowHeight - previewHeight) / 2;
             previewBox = new int[]{groupX, previewY, groupX + previewWidth, previewY + previewHeight};
-            int buttonY = previewY + (previewHeight - Math.round(26 * u)) / 2;
-            addRenderableWidget(new TwoLineButton(groupX + previewWidth + Math.round(16 * u), buttonY, buttonWidth, Math.round(26 * u),
+            int blockTop = previewY + (previewHeight - Math.round(58 * u)) / 2;
+            addRenderableWidget(new TwoLineButton(groupX + previewWidth + Math.round(16 * u), blockTop, buttonWidth, Math.round(26 * u),
                 Component.translatable("staturefy.config.player_profiles"), font, u,
                 button -> minecraft.setScreenAndShow(new PlayerProfilesScreen(this))));
             if (previewHeight - Math.round(26 * u) >= Math.round(52 * u)) {
-                addRenderableWidget(new HandScaleToggle(groupX + previewWidth + Math.round(16 * u), buttonY + Math.round(32 * u),
+                addRenderableWidget(new HandScaleToggle(groupX + previewWidth + Math.round(16 * u), blockTop + Math.round(32 * u),
                     buttonWidth, Math.round(26 * u), font, u));
             }
         } else {
@@ -285,9 +285,9 @@ public final class StaturefyConfigScreen extends Screen {
             graphics.pose().pushMatrix();
             graphics.pose().scale(u, u);
             graphics.centeredText(font, Component.translatable("staturefy.config.hand_scale"),
-                Math.round(centerX / u), Math.round((centerY - 5) / u), 0xFFE8E8E8);
+                Math.round(centerX / u), Math.round((centerY - 10) / u), 0xFFE8E8E8);
             graphics.centeredText(font, Component.translatable(on ? "staturefy.config.hand_scale.on" : "staturefy.config.hand_scale.off"),
-                Math.round(centerX / u), Math.round((centerY + 2) / u), on ? 0xFF3A3A3A : 0xFFFFD45A);
+                Math.round(centerX / u), Math.round((centerY + 1) / u), on ? 0xFF3A3A3A : 0xFFFFD45A);
             graphics.pose().popMatrix();
         }
     }
