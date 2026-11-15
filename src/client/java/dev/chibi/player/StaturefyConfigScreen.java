@@ -118,12 +118,19 @@ public final class StaturefyConfigScreen extends Screen {
             addRenderableWidget(new TwoLineButton(groupX + previewWidth + Math.round(16 * u), buttonY, buttonWidth, Math.round(26 * u),
                 Component.translatable("staturefy.config.player_profiles"), font, u,
                 button -> minecraft.setScreenAndShow(new PlayerProfilesScreen(this))));
+            if (previewHeight - Math.round(26 * u) >= Math.round(52 * u)) {
+                addRenderableWidget(new HandScaleToggle(groupX + previewWidth + Math.round(16 * u), buttonY + Math.round(32 * u),
+                    buttonWidth, Math.round(26 * u), font, u));
+            }
         } else {
             previewBox = null;
             int listButtonWidth = Math.min(Math.round(260 * u), width - 40);
+            int half = (listButtonWidth - Math.round(8 * u)) / 2;
             addRenderableWidget(Button.builder(Component.translatable("staturefy.config.player_profiles").withStyle(ChatFormatting.GOLD),
                 button -> minecraft.setScreenAndShow(new PlayerProfilesScreen(this)))
-                .bounds(center - listButtonWidth / 2, bottomRowY, listButtonWidth, Math.round(26 * u)).build());
+                .bounds(center - listButtonWidth / 2, bottomRowY, half, Math.round(26 * u)).build());
+            addRenderableWidget(new HandScaleToggle(center - listButtonWidth / 2 + half + Math.round(8 * u), bottomRowY,
+                half, Math.round(26 * u), font, u));
         }
         int doneWidth = Math.min(200, Math.min(Math.round(260 * u), width - 40));
         addRenderableWidget(new TwoLineButton(
@@ -250,6 +257,39 @@ public final class StaturefyConfigScreen extends Screen {
     @Override
     public void onClose() {
         minecraft.setScreenAndShow(parent);
+    }
+
+    static final class HandScaleToggle extends Button {
+        private final Font font;
+        private final float u;
+
+        HandScaleToggle(int x, int y, int width, int height, Font font, float u) {
+            super(x, y, width, height, Component.translatable("staturefy.config.hand_scale"),
+                button -> StaturefyConfig.setFirstPersonHandScale(!StaturefyConfig.firstPersonHandScale()),
+                DEFAULT_NARRATION);
+            this.font = font;
+            this.u = u;
+        }
+
+        @Override
+        protected void extractContents(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
+            boolean on = StaturefyConfig.firstPersonHandScale();
+            graphics.fill(getX(), getY(), getX() + getWidth(), getY() + getHeight(), on ? 0xFFF2B138 : 0xFF333333);
+            if (isHoveredOrFocused()) {
+                graphics.fill(getX(), getY(), getX() + getWidth(), getY() + getHeight(), on ? 0xFFFFC65C : 0xFF3D3D3D);
+            }
+            graphics.fill(getX(), getY() + getHeight() - 2, getX() + getWidth(), getY() + getHeight(), on ? 0xFF8A5A1D : 0xFF1F1F1F);
+            graphics.fill(getX() + getWidth() - 2, getY(), getX() + getWidth(), getY() + getHeight(), on ? 0xFF8A5A1D : 0xFF1F1F1F);
+            int centerX = getX() + getWidth() / 2;
+            int centerY = getY() + getHeight() / 2;
+            graphics.pose().pushMatrix();
+            graphics.pose().scale(u, u);
+            graphics.centeredText(font, Component.translatable("staturefy.config.hand_scale"),
+                Math.round(centerX / u), Math.round((centerY - 5) / u), 0xFFE8E8E8);
+            graphics.centeredText(font, Component.translatable(on ? "staturefy.config.hand_scale.on" : "staturefy.config.hand_scale.off"),
+                Math.round(centerX / u), Math.round((centerY + 2) / u), on ? 0xFF3A3A3A : 0xFFFFD45A);
+            graphics.pose().popMatrix();
+        }
     }
 
     static final class TwoLineButton extends Button {

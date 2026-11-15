@@ -21,5 +21,10 @@
     "staturefy.profile.teen":  "ПОДРОСТОК",
     "staturefy.profile.chibi":  "ЧИБИ",
     "staturefy.profile.tall":  "ВЫСОКИЙ",
-    "staturefy.common.done":  "ГОТОВО"
+    "staturefy.config.hand_scale":  "HAND SCALE",
+"staturefy.config.hand_scale.on":  "ON",
+"staturefy.config.hand_scale.off":  "OFF",
+"staturefy.punchy.hand_scale":  "First-person hand scale",
+"staturefy.punchy.hand_scale_desc":  "Scale the first-person hand and held items with your Staturefy body profile",
+"staturefy.common.done":  "ru_ru.json"
 }

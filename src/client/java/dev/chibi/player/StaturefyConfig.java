@@ -28,12 +28,13 @@ import java.util.Optional;
 import java.util.UUID;
 
 public final class StaturefyConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger("staturefy");
+    public static final Logger LOGGER = LoggerFactory.getLogger("staturefy");
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
     private static final Path FILE = FabricLoader.getInstance().getConfigDir().resolve("staturefy.json");
     private static final Map<UUID, PlayerOverride> PLAYER_OVERRIDES = new LinkedHashMap<>();
     private static String localProfile = BodyProfiles.VANILLA.id();
     private static String othersProfile = BodyProfiles.VANILLA.id();
+    private static boolean firstPersonHandScale = true;
     private static boolean loaded;
 
     private StaturefyConfig() {
@@ -56,6 +57,7 @@ public final class StaturefyConfig {
             JsonObject json = root.getAsJsonObject();
             localProfile = string(json, "local_profile", localProfile);
             othersProfile = string(json, "others_profile", othersProfile);
+            firstPersonHandScale = bool(json, "first_person_hand_scale", true);
             JsonElement players = json.get("players");
             if (players != null && players.isJsonObject()) {
                 for (Map.Entry<String, JsonElement> entry : players.getAsJsonObject().entrySet()) {
@@ -86,6 +88,27 @@ public final class StaturefyConfig {
 
     public static String othersProfile() {
         return othersProfile;
+    }
+
+    public static boolean firstPersonHandScale() {
+        return firstPersonHandScale;
+    }
+
+    public static void setFirstPersonHandScale(boolean value) {
+        if (firstPersonHandScale != value) {
+            firstPersonHandScale = value;
+            save();
+        }
+    }
+
+    /** First-person hand scale for the local player's profile (Punchy caps at 0.75-1.25). */
+    public static float handScaleFactor() {
+        return switch (localProfile) {
+            case "chibi" -> 0.72F;
+            case "teen" -> 0.85F;
+            case "tall" -> 1.10F;
+            default -> 1.0F;
+        };
     }
 
     public static String effectiveProfile(UUID playerId) {
@@ -148,6 +171,12 @@ public final class StaturefyConfig {
         }
     }
 
+    private static boolean bool(JsonObject json, String key, boolean fallback) {
+        JsonElement value = json.get(key);
+        return value != null && value.isJsonPrimitive() && value.getAsJsonPrimitive().isBoolean()
+            ? value.getAsBoolean() : fallback;
+    }
+
     private static String string(JsonObject json, String key, String fallback) {
         JsonElement value = json.get(key);
         return value != null && value.isJsonPrimitive() && value.getAsJsonPrimitive().isString()
@@ -158,6 +187,7 @@ public final class StaturefyConfig {
         JsonObject root = new JsonObject();
         root.addProperty("local_profile", localProfile);
         root.addProperty("others_profile", othersProfile);
+        root.addProperty("first_person_hand_scale", firstPersonHandScale);
         JsonObject players = new JsonObject();
         for (PlayerOverride override : PLAYER_OVERRIDES.values()) {
             JsonObject player = new JsonObject();

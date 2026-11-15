@@ -33,6 +33,7 @@ dependencies {
     implementation "net.fabricmc:fabric-loader:${project.loader_version}"
     implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
     compileOnly "com.terraformersmc:modmenu:${project.modmenu_version}"
+    compileOnly files("libs/punchy-3.2-fabric-26.3.jar")
 }
 
 processResources {

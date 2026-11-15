@@ -21,5 +21,10 @@
     "staturefy.profile.teen":  "少年",
     "staturefy.profile.chibi":  "Q版",
     "staturefy.profile.tall":  "高挑",
-    "staturefy.common.done":  "完成"
+    "staturefy.config.hand_scale":  "HAND SCALE",
+"staturefy.config.hand_scale.on":  "ON",
+"staturefy.config.hand_scale.off":  "OFF",
+"staturefy.punchy.hand_scale":  "First-person hand scale",
+"staturefy.punchy.hand_scale_desc":  "Scale the first-person hand and held items with your Staturefy body profile",
+"staturefy.common.done":  "zh_cn.json"
 }

@@ -21,5 +21,10 @@
     "staturefy.profile.teen":  "청소년",
     "staturefy.profile.chibi":  "치비",
     "staturefy.profile.tall":  "키 크게",
-    "staturefy.common.done":  "완료"
+    "staturefy.config.hand_scale":  "HAND SCALE",
+"staturefy.config.hand_scale.on":  "ON",
+"staturefy.config.hand_scale.off":  "OFF",
+"staturefy.punchy.hand_scale":  "First-person hand scale",
+"staturefy.punchy.hand_scale_desc":  "Scale the first-person hand and held items with your Staturefy body profile",
+"staturefy.common.done":  "ko_kr.json"
 }
