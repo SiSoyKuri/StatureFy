@@ -1,5 +1,23 @@
 # Changelog
 
+## [1.1.0] - 2026-11-15
+
+### Added
+- First-person hand scale: your hand and held items now render smaller with the Chibi and Teen profiles and slightly larger with the Tall profile (Vanilla stays at normal size).
+- SmoothPlayerAnimations 2.1.0 compatibility: the skinned player and armor follow the head scale of Chibi and Teen, and the vanilla helmet keeps the correct size with every profile.
+- Integration with the Punchy API: a "Hand scale" toggle is added to Punchy's Compat tab, and Punchy's first-person arms respect the Staturefy hand scale. Everything works normally when Punchy is not installed.
+- The mod menu now survives every resource reload (F3+T, toggling mods or packs) without breaking its font.
+
+### Fixed
+- The menu now looks identical at every GUI scale: card label bands, corner accents and figure sizes were using fixed pixels that only matched the x3 scale.
+- The "Player" section label no longer overlaps the top of the cards.
+- The Done button label was corrupted in every language (it showed the file name instead of the translation).
+- The "Player list" and "Hand scale" buttons are now properly centered, and the hand-scale toggle text is no longer clipped.
+
+### Changed
+- Player card figures, label bands and corner accents now scale proportionally with the GUI scale.
+- The Silkscreen pixel font is rebuilt after each resource reload.
+
 ## [1.0.1] - 2026-11-11
 
 ### Added
@@ -17,23 +35,3 @@
 - Improved text legibility across the menu: dark gray text on cards and light text on gold buttons.
 - "Staturefy" title moved up and recolored green.
 - All menu text now scales proportionally across every GUI scale, using the x3 scale as the reference design.
-
-## [1.0.0] - 2026-11-07
-
-### Added
-- New Teen and Tall body profiles, alongside Vanilla and Chibi.
-- Rendering compatibility with PatPat: the headpat animation now scales and positions correctly according to the Chibi or Teen profile.
-- Mod icon added for Mod Menu.
-- Translations added for Argentine and Mexican Spanish, French, Indonesian, Japanese, Korean, Russian, and Simplified Chinese.
-
-### Changed
-- Redesigned configuration menu featuring profile cards, preview figures, and a cleaner, centered layout.
-- Positioning adjustments for Chibi while sitting on mounts.
-- Fence rendering tweaks when using Touch'n Motion's Foot IK on Chibi and Teen profiles.
-- Vanilla is now set as the default profile for both local and remote players.
-- English and European Spanish texts updated for the menu and new profiles.
-
-## [0.1.0] - 2026-11-03
-
-### Added
-- Initial release: client-side body profile system with Vanilla, Chibi, Teen and Tall profiles, per-player and global configuration, in-game preview, hitboxes unchanged.
