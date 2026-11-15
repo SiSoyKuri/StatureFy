@@ -38,6 +38,8 @@ final class ProfileCardButton extends Button {
         int bottom = y + getHeight();
         boolean active = selected.getAsBoolean();
         int bg = isHoveredOrFocused() ? 0xFF383838 : 0xFF333333;
+        int inset = Math.max(1, Math.round(2 * u));
+        int corner = Math.max(1, Math.round(2 * u));
 
         graphics.fill(x, y, right, bottom, bg);
         // Todas las tarjetas: borde dorado + esquinas celestes; verde si está seleccionada.
@@ -47,20 +49,21 @@ final class ProfileCardButton extends Button {
         graphics.fill(x, bottom - 1, right, bottom, c);
         graphics.fill(x, y, x + 1, bottom, c);
         graphics.fill(right - 1, y, right, bottom, c);
-        graphics.fill(x + 1, y + 1, x + 3, y + 3, k);
-        graphics.fill(right - 3, y + 1, right - 1, y + 3, k);
-        graphics.fill(x + 1, bottom - 3, x + 3, bottom - 1, k);
-        graphics.fill(right - 3, bottom - 3, right - 1, bottom - 1, k);
+        graphics.fill(x + 1, y + 1, x + 1 + corner, y + 1 + corner, k);
+        graphics.fill(right - 1 - corner, y + 1, right - 1, y + 1 + corner, k);
+        graphics.fill(x + 1, bottom - 1 - corner, x + 1 + corner, bottom - 1, k);
+        graphics.fill(right - 1 - corner, bottom - 1 - corner, right - 1, bottom - 1, k);
 
-        int labelTop = bottom - LABEL_HEIGHT - 2;
-        graphics.fill(x + 2, labelTop, right - 2, bottom - 2, 0xFFC7C7C7);
+        int labelHeight = Math.max(12, Math.round(LABEL_HEIGHT * u));
+        int labelTop = bottom - labelHeight - inset;
+        graphics.fill(x + inset, labelTop, right - inset, bottom - inset, 0xFFC7C7C7);
         graphics.pose().pushMatrix();
         graphics.pose().scale(u, u);
         graphics.centeredText(font,
                 Component.translatable(profile.translationKey()).withStyle(ChatFormatting.BOLD),
-                Math.round((x + getWidth() / 2) / u), Math.round((labelTop + 6) / u), 0xFF3A3A3A);
+                Math.round((x + getWidth() / 2) / u), Math.round((labelTop + 6 * u) / u), 0xFF3A3A3A);
         graphics.pose().popMatrix();
-        drawFigure(graphics, x + getWidth() / 2, y + 6, labelTop - (y + 8));
+        drawFigure(graphics, x + getWidth() / 2, y + Math.round(6 * u), labelTop - (y + Math.round(8 * u)));
     }
 
     private void drawFigure(GuiGraphicsExtractor graphics, int centerX, int top, int availableHeight) {
@@ -71,7 +74,7 @@ final class ProfileCardButton extends Button {
         float headFactor = profile.headScale();
         float bodyFactor = vy;
         float totalUnits = 5.0F * headFactor + 7.0F * bodyFactor + 6.0F * bodyFactor;
-        float unit = Math.min(3.6F, (availableHeight - 2) / totalUnits);
+        float unit = Math.min(3.6F * u, (availableHeight - 2 * u) / totalUnits);
 
         int headWidth = Math.round(6.0F * headFactor * unit);
         int headHeight = Math.round(5.0F * headFactor * unit);

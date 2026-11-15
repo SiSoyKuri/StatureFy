@@ -173,7 +173,7 @@ public final class StaturefyConfigScreen extends Screen {
         int globalLabelY = playerCardsY + cardHeight + Math.round(10 * u);
         int globalCardsY = globalLabelY + Math.round(16 * u);
         drawTitle(graphics, center);
-        drawSectionLabel(graphics, font, "staturefy.config.player_section", center, Math.round(52 * u), u);
+        drawSectionLabel(graphics, font, "staturefy.config.player_section", center, Math.round(45 * u), u);
         drawSectionLabel(graphics, font, "staturefy.config.global_section", center, globalLabelY + Math.round(4 * u), u);
 
         if (previewBox != null && previewProfile != null
