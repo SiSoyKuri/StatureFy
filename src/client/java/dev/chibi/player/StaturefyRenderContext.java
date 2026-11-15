@@ -30,7 +30,7 @@ public final class StaturefyRenderContext {
         return profiles.isEmpty() ? BodyProfiles.VANILLA : profiles.peek();
     }
 
-    public static void beginVanillaRigTree(ModelPart root, ModelPart[] parts, boolean[] slot, float headScale) {
+    public static void beginVanillaRigTree(ModelPart root, ModelPart[] parts, boolean[] slot) {
         if (VANILLA_RIG_TREE.get() != null) {
             return;
         }
@@ -39,14 +39,9 @@ public final class StaturefyRenderContext {
             wasVisible[i] = parts[i].visible;
             parts[i].visible = wasVisible[i] && i < slot.length && slot[i];
         }
-        float headXScale = parts[0].xScale;
-        float headYScale = parts[0].yScale;
-        float headZScale = parts[0].zScale;
-        parts[0].xScale *= headScale;
-        parts[0].yScale *= headScale;
-        parts[0].zScale *= headScale;
-        VANILLA_RIG_TREE.set(new VanillaRigTree(root, parts, wasVisible,
-                headXScale, headYScale, headZScale));
+        // La cabeza la escala ModelMixin (cubre todo HumanoidModel); aquí solo
+        // enmascaramos visibilidad para que el casco vanilla reemplace el rig.
+        VANILLA_RIG_TREE.set(new VanillaRigTree(root, parts, wasVisible));
     }
 
     public static boolean vanillaRigTreeActive() {
@@ -61,9 +56,6 @@ public final class StaturefyRenderContext {
         for (int i = 0; i < tree.parts.length; i++) {
             tree.parts[i].visible = tree.wasVisible[i];
         }
-        tree.parts[0].xScale = tree.headXScale;
-        tree.parts[0].yScale = tree.headYScale;
-        tree.parts[0].zScale = tree.headZScale;
         VANILLA_RIG_TREE.remove();
     }
 
@@ -71,18 +63,11 @@ public final class StaturefyRenderContext {
         private final ModelPart root;
         private final ModelPart[] parts;
         private final boolean[] wasVisible;
-        private final float headXScale;
-        private final float headYScale;
-        private final float headZScale;
 
-        private VanillaRigTree(ModelPart root, ModelPart[] parts, boolean[] wasVisible,
-                               float headXScale, float headYScale, float headZScale) {
+        private VanillaRigTree(ModelPart root, ModelPart[] parts, boolean[] wasVisible) {
             this.root = root;
             this.parts = parts;
             this.wasVisible = wasVisible;
-            this.headXScale = headXScale;
-            this.headYScale = headYScale;
-            this.headZScale = headZScale;
         }
     }
 }

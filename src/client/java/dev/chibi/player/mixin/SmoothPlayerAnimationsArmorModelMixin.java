@@ -14,18 +14,12 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.Unique;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 
 @Pseudo
 @Mixin(targets = "com.huaxiaosheng.spapacks.client.RigArmorModel")
 public abstract class SmoothPlayerAnimationsArmorModelMixin {
-    @Unique private static Method staturefy$configGetter;
-    @Unique private static Field staturefy$enabledField;
-    @Unique private static Field staturefy$cemEnabledField;
-    @Unique private static boolean staturefy$configLookupDone;
-    @Unique private static boolean staturefy$configAvailable;
-    @Unique private ModelPart staturefy$root;
+    @Unique
+    private ModelPart staturefy$root;
 
     @Shadow @Final private boolean[] slot;
     @Shadow @Final private ModelPart[] parts;
@@ -44,38 +38,14 @@ public abstract class SmoothPlayerAnimationsArmorModelMixin {
                                             CallbackInfoReturnable<Boolean> cir) {
         if (slot != null && slot.length > 0 && slot[0]) {
             var profile = StaturefyRenderContext.current();
-            if (!profile.equals(BodyProfiles.VANILLA) && staturefy$smoothCemEnabled()) {
+            // El casco skinned del rig 2.1.0 ignora ModelPart.xScale, así que con
+            // un perfil no vanilla lo sustituimos por los cubos vanilla del rig,
+            // enmascarados y escalados (siguen la pose del rig, paleta incluida).
+            if (!profile.equals(BodyProfiles.VANILLA)) {
                 StaturefyRenderContext.beginVanillaRigTree(
-                        staturefy$root, parts, slot, profile.headScale());
+                        staturefy$root, parts, slot);
                 cir.setReturnValue(false);
             }
-        }
-    }
-
-    @Unique
-    private static boolean staturefy$smoothCemEnabled() {
-        if (!staturefy$configLookupDone) {
-            staturefy$configLookupDone = true;
-            try {
-                Class<?> configClass = Class.forName("com.huaxiaosheng.spapacks.client.ModConfig", false,
-                        SmoothPlayerAnimationsArmorModelMixin.class.getClassLoader());
-                staturefy$configGetter = configClass.getMethod("get");
-                staturefy$enabledField = configClass.getField("enabled");
-                staturefy$cemEnabledField = configClass.getField("cemEnabled");
-                staturefy$configAvailable = true;
-            } catch (ReflectiveOperationException | LinkageError exception) {
-                staturefy$configAvailable = false;
-            }
-        }
-        if (!staturefy$configAvailable) {
-            return false;
-        }
-        try {
-            Object config = staturefy$configGetter.invoke(null);
-            return config != null && staturefy$enabledField.getBoolean(config)
-                    && staturefy$cemEnabledField.getBoolean(config);
-        } catch (ReflectiveOperationException exception) {
-            return false;
         }
     }
 }
