@@ -5,12 +5,31 @@ import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallba
 import net.fabricmc.fabric.api.client.command.v2.ClientCommands;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import com.mojang.brigadier.Command;
+import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
+import net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.resources.Identifier;
+import net.minecraft.server.packs.PackType;
+import net.minecraft.server.packs.resources.ResourceManager;
 
 public final class StaturefyClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         StaturefyConfig.load();
+        // El atlas de la fuente Silkscreen muere en cada recarga de recursos;
+        // sin esto el menú dibuja píxeles basura tras activar mods o packs.
+        ResourceManagerHelper.get(PackType.CLIENT_RESOURCES).registerReloadListener(
+            new SimpleSynchronousResourceReloadListener() {
+                @Override
+                public Identifier getFabricId() {
+                    return Identifier.fromNamespaceAndPath("staturefy", "font_reset");
+                }
+
+                @Override
+                public void onResourceManagerReload(ResourceManager manager) {
+                    StaturefyConfigScreen.resetFont();
+                }
+            });
         if (FabricLoader.getInstance().isModLoaded("punchy")) {
             try {
                 PunchyIntegration.init();

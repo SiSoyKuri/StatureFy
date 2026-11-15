@@ -65,6 +65,11 @@ public final class StaturefyConfigScreen extends Screen {
         return staturefyFont;
     }
 
+    /** Descarta la fuente cacheada; se llama en cada recarga de recursos. */
+    static void resetFont() {
+        staturefyFont = null;
+    }
+
     @Override
     protected void init() {
         cards.clear();
