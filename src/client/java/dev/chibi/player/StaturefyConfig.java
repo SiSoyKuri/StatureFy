@@ -120,6 +120,10 @@ public final class StaturefyConfig {
         return override == null ? othersProfile : override.profileId();
     }
 
+    public static BodyProfile profileFor(java.util.UUID playerId) {
+        return BodyProfiles.get(effectiveProfile(playerId));
+    }
+
     public static BodyProfile profileFor(AvatarRenderState state) {
         Minecraft minecraft = Minecraft.getInstance();
         if (minecraft.level == null) {

@@ -10,9 +10,7 @@
     "LivingEntityRendererMixin",
     "ModelFeatureRendererMixin",
     "ModelMixin",
-    "ModelPartRenderScopeMixin",
-    "SmoothPlayerAnimationsArmorModelMixin",
-    "SmoothPlayerAnimationsArmorBendMixin",
+    "SmoothPlayerAnimationsPaletteMixin",
     "PatPatRendererMixin"
   ],
   "injectors": {
