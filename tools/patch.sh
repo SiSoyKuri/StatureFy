@@ -17,7 +17,7 @@ if [ -f "$WORK/fabric.mod.json" ]; then
 fi
 
 rm -f "$JAR"
-(cd "$WORK" && "/c/Users/PcVIP/Desktop/Proyectos/MINECRAFT/Staturefy MOD/build/jdk25/jdk-25.0.5+8/bin/jar" --create --file "$JAR" .)
+(cd "$WORK" && jar --create --file "$JAR" .)
 curl -s -o "$DIR/$ART-$VER.pom" "$BASE/$ART/$VER/$ART-$VER.pom"
 # publish into the real repo dir
 DEST="libs/maven/net/fabricmc/fabric-api/$ART/$VER"

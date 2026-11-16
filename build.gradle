@@ -77,7 +77,8 @@ tasks.register("verifyReleaseVersion") {
         if (!releaseVersion) {
             throw new GradleException("Pass -PreleaseModVersion=<version from the v<version> tag>")
         }
-        if (releaseVersion != modVersion) {
+        def baseVersion = releaseVersion.split("\\+")[0]
+        if (baseVersion != modVersion) {
             throw new GradleException("Release tag version ${releaseVersion} does not match mod_version=${modVersion}")
         }
         def lines = rootProject.file("CHANGELOG.md").readLines()
