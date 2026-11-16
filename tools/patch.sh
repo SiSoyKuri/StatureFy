@@ -28,7 +28,7 @@ curl -s -o "$DIR/$ART-$VER.pom" "$BASE/$ART/$VER/$ART-$VER.pom"
 # publish into the real repo dir
 DEST="libs/maven/net/fabricmc/fabric-api/$ART/$VER"
 mkdir -p "$DEST"
-mv "$JAR" "$DEST/"
+[ -f "$JAR" ] && mv "$JAR" "$DEST/"
 mv "$DIR/$ART-$VER.pom" "$DEST/" 2>/dev/null || true
 rm -rf "$WORK"
 echo "   ok"
