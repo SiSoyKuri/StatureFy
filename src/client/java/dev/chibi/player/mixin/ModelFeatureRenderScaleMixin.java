@@ -32,7 +32,7 @@ public abstract class ModelFeatureRenderScaleMixin {
     @Unique private float staturefy$headZ;
 
     @Inject(
-        method = "renderModel(Lnet/minecraft/client/renderer/SubmitNodeStorage$ModelSubmit;Lnet/minecraft/client/renderer/RenderType;Lcom/mojang/blaze3d/vertex/VertexConsumer;Lnet/minecraft/client/renderer/OutlineBufferSource;Lnet/minecraft/client/renderer/MultiBufferSource$BufferSource;)V",
+        method = "renderModel(Lnet/minecraft/client/renderer/SubmitNodeStorage$ModelSubmit;Lnet/minecraft/client/renderer/rendertype/RenderType;Lcom/mojang/blaze3d/vertex/VertexConsumer;Lnet/minecraft/client/renderer/OutlineBufferSource;Lnet/minecraft/client/renderer/MultiBufferSource$BufferSource;)V",
         at = @At("HEAD"))
     private <S> void staturefy$begin(SubmitNodeStorage.ModelSubmit<S> submit, RenderType renderType,
                                      VertexConsumer vertexConsumer, OutlineBufferSource outlineBufferSource,
@@ -56,7 +56,7 @@ public abstract class ModelFeatureRenderScaleMixin {
     }
 
     @Inject(
-        method = "renderModel(Lnet/minecraft/client/renderer/SubmitNodeStorage$ModelSubmit;Lnet/minecraft/client/renderer/RenderType;Lcom/mojang/blaze3d/vertex/VertexConsumer;Lnet/minecraft/client/renderer/OutlineBufferSource;Lnet/minecraft/client/renderer/MultiBufferSource$BufferSource;)V",
+        method = "renderModel(Lnet/minecraft/client/renderer/SubmitNodeStorage$ModelSubmit;Lnet/minecraft/client/renderer/rendertype/RenderType;Lcom/mojang/blaze3d/vertex/VertexConsumer;Lnet/minecraft/client/renderer/OutlineBufferSource;Lnet/minecraft/client/renderer/MultiBufferSource$BufferSource;)V",
         at = @At("RETURN"))
     private <S> void staturefy$end(SubmitNodeStorage.ModelSubmit<S> submit, RenderType renderType,
                                    VertexConsumer vertexConsumer, OutlineBufferSource outlineBufferSource,
