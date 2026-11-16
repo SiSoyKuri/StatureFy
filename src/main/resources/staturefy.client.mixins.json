@@ -8,7 +8,7 @@
     "ItemInHandRendererMixin",
     "FontManagerAccessor",
     "MinecraftAccessor",
-    "LivingEntityRendererMixin",
+    "LivingEntityRendererMixin","ModelPartHeadScaleMixin",
     "ModelFeatureRenderScaleMixin",
     "SmoothPlayerAnimationsPaletteMixin",
     "PatPatRendererMixin"

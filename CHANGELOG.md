@@ -1,5 +1,44 @@
 # Changelog
 
+## [1.1.0+1.21.11] - 2026-11-16
+
+First official build for **Minecraft 1.21.11 (Fabric)**. Same body profiles, same menu, same features as the 26.3 version, rebuilt for the 1.21.11 rendering pipeline.
+
+### Added
+- Full port to Minecraft 1.21.11: Vanilla, Teen, Chibi and Tall profiles, the Staturefy menu (Silkscreen font, live preview, proportional layout) and the `/staturefy` command all work exactly like in 26.x.
+- Head scaling is applied at the transform level of the model tree, so it works through every render path of this version: vanilla pipeline, Sodium/Iris batched entity rendering, EMF/Fresh Animations (FA+Player) custom player models, Cosmetica/trender skins, Punchy and SmoothPlayerAnimations.
+- Foot Grounding feature of Touch'n Motion is respected (when the mod is present, the chibi body keeps its vanilla ground alignment rules).
+
+### Fixed
+- Head size of Chibi and Teen now renders correctly in 1.21.11 (the first port drew the head at vanilla size because the vertex bake bypassed the previous hooks).
+- First-person hands and items, held maps and the vanilla arm scale correctly in 1.21.11 (ported from the 26.3 hooks).
+- Client commands (`/staturefy`) registered through the Fabric command API for 1.21.11.
+- The mod now starts on any Fabric Loader 0.15.11+ and any Fabric API for 1.21.11; the build no longer depends on a patched Fabric API at runtime.
+
+### Compat notes
+- Requires: Minecraft 1.21.11, Fabric Loader 0.15.11+, Fabric API for 1.21.11, Java 21+.
+- Tested together with: EMF/ETF + FreshAnimations + FA+Player, SmoothPlayerAnimations, Punchy (+Punchy Moves), PatPat, Cosmetica/trender, immediatelyfast, Sodium/Iris, Touch'n Motion.
+- Found a bug? Please report it on our Discord so we can fix it in the next build.
+
+# [1.1.0+1.21.11] - ESPAÑOL
+Primer build oficial para **Minecraft 1.21.11 (Fabric)**. Los mismos perfiles corporales, el mismo menú y las mismas funciones de la versión 26.3, reconstruidos para el pipeline de renderizado de 1.21.11.
+
+## Agregado
+- Port completo a Minecraft 1.21.11: perfiles Vanilla, Adolescente, Chibi y Alto, el menú de Staturefy (fuente Silkscreen, vista previa, proporciones adaptadas) y el comando `/staturefy` funcionan exactamente igual que en 26.x.
+- La escala de la cabeza se aplica a nivel de transformación del árbol del modelo, así funciona con todos los caminos de render de esta versión: pipeline vanilla, rendering batcheado de Sodium/Iris, modelos personalizados de EMF/Fresh Animations (FA+Player), skins de Cosmetica/trender, Punchy y SmoothPlayerAnimations.
+- Se respeta la función Foot Grounding de Touch'n Motion (si el mod está presente, el cuerpo chibi mantiene sus reglas de alineación al suelo).
+
+## Corregido
+- El tamaño de la cabeza de Chibi y Adolescente ahora se renderiza correctamente en 1.21.11 (el primer port dibujaba la cabeza en tamaño vanilla porque el horneado de vértices esquivaba los hooks anteriores).
+- Las manos y objetos en primera persona, los mapas y el brazo vanilla escalan correctamente en 1.21.11 (hooks portados de 26.3).
+- Los comandos de cliente (`/staturefy`) registrados con la API de comandos de Fabric para 1.21.11.
+- El mod arranca con cualquier Fabric Loader 0.15.11+ y cualquier Fabric API de 1.21.11; el build ya no depende de una Fabric API parcheada en runtime.
+
+## Notas de compatibilidad
+- Requiere: Minecraft 1.21.11, Fabric Loader 0.15.11+, Fabric API para 1.21.11, Java 21+.
+- Probado junto a: EMF/ETF + FreshAnimations + FA+Player, SmoothPlayerAnimations, Punchy (+Punchy Moves), PatPat, Cosmetica/trender, immediatelyfast, Sodium/Iris, Touch'n Motion.
+- ¿Encontraste un bug? Repórtalo en nuestro Discord para arreglarlo en el próximo build.
+
 ## [1.1.0] - 2026-11-15
 
 ### Added

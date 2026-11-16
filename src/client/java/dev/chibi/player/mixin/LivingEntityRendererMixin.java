@@ -3,6 +3,7 @@ package dev.chibi.player.mixin;
 import com.mojang.blaze3d.vertex.PoseStack;
 import dev.chibi.player.AvatarPreviewDuck;
 import dev.chibi.player.BodyProfile;
+import dev.chibi.player.HeadScaleWindow;
 import dev.chibi.player.BodyProfiles;
 import dev.chibi.player.StaturefyConfig;
 import net.minecraft.client.Minecraft;
@@ -81,7 +82,7 @@ public abstract class LivingEntityRendererMixin {
     }
 
     @Inject(method = "submit(Lnet/minecraft/client/renderer/entity/state/LivingEntityRenderState;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;Lnet/minecraft/client/renderer/state/CameraRenderState;)V",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/client/model/EntityModel;setupAnim(Ljava/lang/Object;)V", shift = At.Shift.AFTER))
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/SubmitNodeCollector;submitModel(Lnet/minecraft/client/model/Model;Ljava/lang/Object;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/rendertype/RenderType;IIILnet/minecraft/client/renderer/texture/TextureAtlasSprite;ILnet/minecraft/client/renderer/feature/ModelFeatureRenderer$CrumblingOverlay;)V"))
     private void staturefy$scaleHeadPivots(LivingEntityRenderState state, PoseStack poseStack,
                                           SubmitNodeCollector collector, CameraRenderState camera, CallbackInfo ci) {
         if (!(state instanceof AvatarRenderState avatar)) {
@@ -94,25 +95,19 @@ public abstract class LivingEntityRendererMixin {
             return;
         }
 
-        staturefy$scaledHead = model.head;
-        staturefy$headX = model.head.xScale;
-        staturefy$headY = model.head.yScale;
-        staturefy$headZ = model.head.zScale;
-        model.head.xScale *= profile.headScale();
-        model.head.yScale *= profile.headScale();
-        model.head.zScale *= profile.headScale();
+        // Ventana activa: el factor se aplica en ModelPart.translateAndRotate
+        // (ModelPartHeadScaleMixin), que cubre el bake submit-time y el flush.
+        float submitFactor = profile.headScale();
+        HeadScaleWindow.HEAD.set(model.head);
+        HeadScaleWindow.FACTOR.set(submitFactor);
     }
 
     @Inject(method = "submit(Lnet/minecraft/client/renderer/entity/state/LivingEntityRenderState;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;Lnet/minecraft/client/renderer/state/CameraRenderState;)V", at = @At("RETURN"))
     private void staturefy$end(LivingEntityRenderState state, PoseStack poseStack,
                                  SubmitNodeCollector collector, CameraRenderState camera, CallbackInfo ci) {
         if (state instanceof AvatarRenderState) {
-            if (staturefy$scaledHead != null) {
-                staturefy$scaledHead.xScale = staturefy$headX;
-                staturefy$scaledHead.yScale = staturefy$headY;
-                staturefy$scaledHead.zScale = staturefy$headZ;
-                staturefy$scaledHead = null;
-            }
+            HeadScaleWindow.HEAD.remove();
+            HeadScaleWindow.FACTOR.remove();
             if (staturefy$originalNameTagAttachment != null) {
                 state.nameTagAttachment = staturefy$originalNameTagAttachment;
                 staturefy$originalNameTagAttachment = null;
