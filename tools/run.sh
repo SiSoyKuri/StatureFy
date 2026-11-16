@@ -7,6 +7,9 @@ FAPI_VER=$(grep -oE '^fabric_api_version=.*' gradle.properties | cut -d= -f2)
 BASE="https://maven.fabricmc.net/net/fabricmc/fabric-api"
 POM=/tmp/fapi.pom
 curl -sf -o "$POM" "$BASE/fabric-api/$FAPI_VER/fabric-api-$FAPI_VER.pom"
+# The fabric-api aggregator jar itself (its modules are handled below).
+echo "== fabric-api $FAPI_VER"
+bash tools/patch.sh fabric-api "$FAPI_VER"
 mapfile -t ARTS < <(grep -A4 "<dependency>" "$POM" | grep -oE "<artifactId>fabric-[^<]*</artifactId>" | sed 's/<[^>]*>//g' | grep -v '^$')
 mapfile -t VERS < <(grep -A4 "<dependency>" "$POM" | grep -oE "<version>[^<]*</version>" | sed 's/<[^>]*>//g' | grep -v '^$')
 for i in "${!ARTS[@]}"; do
