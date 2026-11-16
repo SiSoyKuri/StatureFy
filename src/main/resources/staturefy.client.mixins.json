@@ -1,15 +1,14 @@
 {
   "required": true,
   "package": "dev.chibi.player.mixin",
-  "compatibilityLevel": "JAVA_25",
+  "compatibilityLevel": "JAVA_21",
   "client": [
     "AvatarRenderStateMixin",
-    "FirstPersonHandsAndItemsRendererMixin",
+    "ItemInHandRendererMixin",
     "FontManagerAccessor",
     "MinecraftAccessor",
     "LivingEntityRendererMixin",
-    "ModelFeatureRendererMixin",
-    "ModelMixin",
+    "ModelFeatureRenderScaleMixin",
     "SmoothPlayerAnimationsPaletteMixin",
     "PatPatRendererMixin"
   ],

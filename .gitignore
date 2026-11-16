@@ -1,12 +1,6 @@
-.gradle/
-.gradle-user-home/
 build/
+build_jdk21/
+.gradle/
+libs/maven/
+libs/*.jar
 run/
-old-mod/
-assets/staturefy-icon-generated.png
-.idea/
-.vscode/
-*.iml
-*.log
-hs_err_pid*
-replay_pid*

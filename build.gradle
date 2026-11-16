@@ -1,5 +1,5 @@
 plugins {
-    id 'net.fabricmc.fabric-loom' version "${loom_version}"
+    id 'net.fabricmc.fabric-loom-remap' version "${loom_version}"
 }
 
 def modVersion = providers.gradleProperty("mod_version").get()
@@ -11,6 +11,17 @@ base {
 }
 
 repositories {
+    exclusiveContent {
+        forRepository {
+            maven {
+                name = "LocalPatchedFapi"
+                url = uri("libs/maven")
+            }
+        }
+        filter {
+            includeGroup "net.fabricmc.fabric-api"
+        }
+    }
     mavenCentral()
     maven {
         name = "Terraformers"
@@ -30,10 +41,12 @@ loom {
 
 dependencies {
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
-    implementation "net.fabricmc:fabric-loader:${project.loader_version}"
-    implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
-    compileOnly "com.terraformersmc:modmenu:${project.modmenu_version}"
-    compileOnly files("libs/punchy-3.2-fabric-26.3.jar")
+    mappings loom.officialMojangMappings()
+    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
+    modCompileOnly "com.terraformersmc:modmenu:${project.modmenu_version}"
+    compileOnly files("libs/punchy-3.2b-fabric-1.21.11.jar")
+    compileOnly "net.fabricmc:sponge-mixin:0.17.5+mixin.0.8.7"
 }
 
 processResources {
@@ -45,7 +58,7 @@ processResources {
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(25)
+        languageVersion = JavaLanguageVersion.of(21)
     }
 }
 
@@ -78,5 +91,5 @@ tasks.register("verifyReleaseVersion") {
 }
 
 tasks.withType(JavaCompile).configureEach {
-    options.release = 25
+    options.release = 21
 }

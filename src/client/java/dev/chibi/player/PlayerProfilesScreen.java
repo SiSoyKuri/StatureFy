@@ -1,6 +1,6 @@
 package dev.chibi.player;
 
-import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.Screen;
@@ -70,8 +70,8 @@ public final class PlayerProfilesScreen extends Screen {
     }
 
     @Override
-    public void extractBackground(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
-        super.extractBackground(graphics, mouseX, mouseY, partialTick);
+    public void renderBackground(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
+        super.renderBackground(graphics, mouseX, mouseY, partialTick);
         int center = width / 2;
         int left = Math.max(12, center - 180);
         int right = Math.min(width - 12, center + 180);
@@ -85,19 +85,23 @@ public final class PlayerProfilesScreen extends Screen {
     }
 
     @Override
-    public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
-        super.extractRenderState(graphics, mouseX, mouseY, partialTick);
-        graphics.centeredText(font, Component.translatable("staturefy.players.help"), width / 2, 38, 0xFFD0D0D0);
+    public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
+        drawHeaderText(graphics);
+        super.render(graphics, mouseX, mouseY, partialTick);
+    }
+
+    private void drawHeaderText(GuiGraphics graphics) {
+        graphics.drawCenteredString(font, Component.translatable("staturefy.players.help"), width / 2, 38, 0xFFD0D0D0);
         graphics.fill(Math.max(12, width / 2 - 150), 48, Math.min(width - 12, width / 2 + 150), 49,
             0xFFFFB52D);
         if (allPlayers.isEmpty()) {
-            graphics.centeredText(font, Component.translatable("staturefy.players.empty"), width / 2,
+            graphics.drawCenteredString(font, Component.translatable("staturefy.players.empty"), width / 2,
                 height / 2, 0xFFFFFFFF);
         } else if (filteredPlayers.isEmpty()) {
-            graphics.centeredText(font, Component.translatable("staturefy.players.no_matches"), width / 2,
+            graphics.drawCenteredString(font, Component.translatable("staturefy.players.no_matches"), width / 2,
                 height / 2, 0xFFFFFFFF);
         } else if (pageCount > 1) {
-            graphics.centeredText(font, Component.translatable("staturefy.players.page", page + 1, pageCount),
+            graphics.drawCenteredString(font, Component.translatable("staturefy.players.page", page + 1, pageCount),
                 width / 2, height - 52, 0xFFFFFFFF);
         }
     }

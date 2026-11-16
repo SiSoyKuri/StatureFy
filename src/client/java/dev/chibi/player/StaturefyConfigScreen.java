@@ -4,10 +4,10 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GlyphSource;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.font.FontManager;
 import net.minecraft.client.gui.font.FontSet;
 import net.minecraft.client.gui.font.glyphs.EffectGlyph;
-import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
@@ -94,13 +94,13 @@ public final class StaturefyConfigScreen extends Screen {
         for (int i = 0; i < profiles.size(); i++) {
             BodyProfile profile = profiles.get(i);
             int x = cardX + i * (cardWidth + gap);
-            ProfileCardButton playerCard = new ProfileCardButton(x, playerCardsY, cardWidth, cardHeight, profile, font, u, 
+            ProfileCardButton playerCard = new ProfileCardButton(x, playerCardsY, cardWidth, cardHeight, profile, font, u,
                 () -> StaturefyConfig.localProfile().equals(profile.id()),
                 () -> {
                     StaturefyConfig.setLocalProfile(profile.id());
                     showPreview(profile);
                 });
-            ProfileCardButton globalCard = new ProfileCardButton(x, globalCardsY, cardWidth, cardHeight, profile, font, u, 
+            ProfileCardButton globalCard = new ProfileCardButton(x, globalCardsY, cardWidth, cardHeight, profile, font, u,
                 () -> StaturefyConfig.othersProfile().equals(profile.id()),
                 () -> StaturefyConfig.setOthersProfile(profile.id()));
             addRenderableWidget(playerCard);
@@ -150,8 +150,8 @@ public final class StaturefyConfigScreen extends Screen {
     }
 
     @Override
-    public void extractBackground(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
-        super.extractBackground(graphics, mouseX, mouseY, partialTick);
+    public void renderBackground(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
+        super.renderBackground(graphics, mouseX, mouseY, partialTick);
         int center = width / 2;
         int panelWidth = Math.min(width - Math.round(24 * uiScale()), contentWidth(uiScale()) + Math.round(40 * uiScale()));
         int left = center - panelWidth / 2;
@@ -166,17 +166,13 @@ public final class StaturefyConfigScreen extends Screen {
     }
 
     @Override
-    public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
-        super.extractRenderState(graphics, mouseX, mouseY, partialTick);
-        int center = width / 2;
-        int panelWidth = Math.min(width - Math.round(24 * uiScale()), contentWidth(uiScale()) + Math.round(40 * uiScale()));
-        int left = center - panelWidth / 2;
-        int right = left + panelWidth;
+    public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
         float u = height / 360.0F;
-        int playerCardsY = Math.round(60 * u);
+        int center = width / 2;
+        float ui = uiScale();
+        int panelWidth = Math.min(width - Math.round(24 * ui), contentWidth(ui) + Math.round(40 * ui));
         int cardHeight = Math.max(40, Math.round(60 * u));
-        int globalLabelY = playerCardsY + cardHeight + Math.round(10 * u);
-        int globalCardsY = globalLabelY + Math.round(16 * u);
+        int globalLabelY = Math.round(60 * u) + cardHeight + Math.round(10 * u);
         drawTitle(graphics, center);
         drawSectionLabel(graphics, font, "staturefy.config.player_section", center, Math.round(45 * u), u);
         drawSectionLabel(graphics, font, "staturefy.config.global_section", center, globalLabelY + Math.round(4 * u), u);
@@ -186,9 +182,10 @@ public final class StaturefyConfigScreen extends Screen {
             drawPreviewBox(graphics, mouseX, mouseY, partialTick, previewProfile,
                 previewBox[0], previewBox[1], previewBox[2], previewBox[3]);
         }
+        super.render(graphics, mouseX, mouseY, partialTick);
     }
 
-    private void drawPreviewBox(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick,
+    private void drawPreviewBox(GuiGraphics graphics, int mouseX, int mouseY, float partialTick,
                                 BodyProfile profile, int x1, int y1, int x2, int y2) {
 
         Minecraft minecraft = Minecraft.getInstance();
@@ -198,8 +195,7 @@ public final class StaturefyConfigScreen extends Screen {
         }
         EntityRenderDispatcher dispatcher = minecraft.getEntityRenderDispatcher();
         @SuppressWarnings("unchecked")
-        EntityRenderer<Player, EntityRenderState
-> renderer =
+        EntityRenderer<Player, EntityRenderState> renderer =
                 (EntityRenderer<Player, EntityRenderState>) (EntityRenderer<?, ?>) dispatcher.getRenderer(player);
         EntityRenderState state = renderer.createRenderState(player, partialTick);
         state.shadowPieces.clear();
@@ -227,13 +223,13 @@ public final class StaturefyConfigScreen extends Screen {
                 state.boundingBoxHeight * profile.bodyScaleY() / 2.0F, 0.0F);
         Quaternionf flip = new Quaternionf().rotateZ((float) Math.PI);
         Quaternionf camera = new Quaternionf().rotateX(yAngle * 20.0F * 0.017453292F);
-        graphics.entity(state, scale, offset, flip, camera, x1 + 2, y1 + 2, x2 - 2, y2 - 2);
+        graphics.submitEntityRenderState(state, scale, offset, flip, camera, x1 + 2, y1 + 2, x2 - 2, y2 - 2);
     }
 
-    static void drawSectionLabel(GuiGraphicsExtractor graphics, Font font, String key, int centerX, int deviceY, float u) {
+    static void drawSectionLabel(GuiGraphics graphics, Font font, String key, int centerX, int deviceY, float u) {
         graphics.pose().pushMatrix();
         graphics.pose().scale(u, u);
-        graphics.centeredText(font, Component.translatable(key).withStyle(ChatFormatting.BOLD),
+        graphics.drawCenteredString(font, Component.translatable(key).withStyle(ChatFormatting.BOLD),
                 Math.round(centerX / u), Math.round(deviceY / u), 0xFFFFD45A);
         graphics.pose().popMatrix();
     }
@@ -246,16 +242,16 @@ public final class StaturefyConfigScreen extends Screen {
         return Math.max(1, Math.min(Math.round(460 * u), width - Math.round(40 * u)));
     }
 
-    private void drawTitle(GuiGraphicsExtractor graphics, int center) {
+    private void drawTitle(GuiGraphics graphics, int center) {
         Component title = Component.translatable("staturefy.config.title");
         float scale = 2.2F * height / 360.0F;
         graphics.pose().pushMatrix();
         graphics.pose().scale(scale, scale);
-        graphics.centeredText(font, title, Math.round(center / scale), 7, 0xFF1A6B1F);
+        graphics.drawCenteredString(font, title, Math.round(center / scale), 6, 0xFF2FBF3F);
         graphics.pose().popMatrix();
         graphics.pose().pushMatrix();
         graphics.pose().scale(scale, scale);
-        graphics.centeredText(font, title, Math.round(center / scale), 6, 0xFF2FBF3F);
+        graphics.drawCenteredString(font, title, Math.round(center / scale), 7, 0xFF1A6B1F);
         graphics.pose().popMatrix();
     }
 
@@ -277,7 +273,7 @@ public final class StaturefyConfigScreen extends Screen {
         }
 
         @Override
-        protected void extractContents(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
+        protected void renderContents(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
             boolean on = StaturefyConfig.firstPersonHandScale();
             graphics.fill(getX(), getY(), getX() + getWidth(), getY() + getHeight(), on ? 0xFFF2B138 : 0xFF333333);
             if (isHoveredOrFocused()) {
@@ -289,9 +285,9 @@ public final class StaturefyConfigScreen extends Screen {
             int centerY = getY() + getHeight() / 2;
             graphics.pose().pushMatrix();
             graphics.pose().scale(u, u);
-            graphics.centeredText(font, Component.translatable("staturefy.config.hand_scale"),
+            graphics.drawCenteredString(font, Component.translatable("staturefy.config.hand_scale"),
                 Math.round(centerX / u), Math.round((centerY - 10) / u), 0xFFE8E8E8);
-            graphics.centeredText(font, Component.translatable(on ? "staturefy.config.hand_scale.on" : "staturefy.config.hand_scale.off"),
+            graphics.drawCenteredString(font, Component.translatable(on ? "staturefy.config.hand_scale.on" : "staturefy.config.hand_scale.off"),
                 Math.round(centerX / u), Math.round((centerY + 1) / u), on ? 0xFF3A3A3A : 0xFFFFD45A);
             graphics.pose().popMatrix();
         }
@@ -308,7 +304,7 @@ public final class StaturefyConfigScreen extends Screen {
         }
 
         @Override
-        protected void extractContents(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
+        protected void renderContents(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
             graphics.fill(getX(), getY(), getX() + getWidth(), getY() + getHeight(), 0xFFF2B138);
             if (isHoveredOrFocused()) {
                 graphics.fill(getX(), getY(), getX() + getWidth(), getY() + getHeight(), 0xFFFFC65C);
@@ -331,12 +327,12 @@ public final class StaturefyConfigScreen extends Screen {
             graphics.pose().pushMatrix();
             graphics.pose().scale(u, u);
             if (line2 == null) {
-                graphics.centeredText(font, line1, Math.round(centerX / u),
+                graphics.drawCenteredString(font, line1, Math.round(centerX / u),
                         Math.round((centerY - 4) / u), 0xFFE8E8E8);
             } else {
-                graphics.centeredText(font, line1, Math.round(centerX / u),
+                graphics.drawCenteredString(font, line1, Math.round(centerX / u),
                         Math.round((centerY - 10) / u), 0xFFE8E8E8);
-                graphics.centeredText(font, line2, Math.round(centerX / u),
+                graphics.drawCenteredString(font, line2, Math.round(centerX / u),
                         Math.round((centerY + 1) / u), 0xFFE8E8E8);
             }
             graphics.pose().popMatrix();

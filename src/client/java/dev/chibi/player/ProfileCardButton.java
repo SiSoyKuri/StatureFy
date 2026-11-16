@@ -3,7 +3,7 @@ package dev.chibi.player;
 import java.util.function.BooleanSupplier;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
 
@@ -31,7 +31,7 @@ final class ProfileCardButton extends Button {
     }
 
     @Override
-    protected void extractContents(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
+    protected void renderContents(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
         int x = getX();
         int y = getY();
         int right = x + getWidth();
@@ -59,14 +59,18 @@ final class ProfileCardButton extends Button {
         graphics.fill(x + inset, labelTop, right - inset, bottom - inset, 0xFFC7C7C7);
         graphics.pose().pushMatrix();
         graphics.pose().scale(u, u);
-        graphics.centeredText(font,
-                Component.translatable(profile.translationKey()).withStyle(ChatFormatting.BOLD),
+        graphics.drawCenteredString(font,
+                labelComponent(),
                 Math.round((x + getWidth() / 2) / u), Math.round((labelTop + 6 * u) / u), 0xFF3A3A3A);
         graphics.pose().popMatrix();
         drawFigure(graphics, x + getWidth() / 2, y + Math.round(6 * u), labelTop - (y + Math.round(8 * u)));
     }
 
-    private void drawFigure(GuiGraphicsExtractor graphics, int centerX, int top, int availableHeight) {
+    private Component labelComponent() {
+        return Component.translatable(profile.translationKey()).withStyle(ChatFormatting.BOLD);
+    }
+
+    private void drawFigure(GuiGraphics graphics, int centerX, int top, int availableHeight) {
         // Amplificamos las diferencias de escala para que se distingan a simple vista
         // (vanilla 1.0 vs alto 1.06 sería invisible sin esto). Manteniendo el centro.
         float vy = Math.max(0.55F, Math.min(1.35F, 1.0F + (profile.bodyScaleY() - 1.0F) * 2.5F));

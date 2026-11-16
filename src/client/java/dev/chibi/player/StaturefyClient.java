@@ -2,7 +2,7 @@ package dev.chibi.player;
 
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
-import net.fabricmc.fabric.api.client.command.v2.ClientCommands;
+import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import com.mojang.brigadier.Command;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
@@ -38,9 +38,9 @@ public final class StaturefyClient implements ClientModInitializer {
             }
         }
         ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) ->
-            dispatcher.register(ClientCommands.literal("staturefy")
+            dispatcher.register(ClientCommandManager.literal("staturefy")
                 .executes(context -> openConfig(context.getSource()))
-                .then(ClientCommands.literal("config")
+                .then(ClientCommandManager.literal("config")
                     .executes(context -> openConfig(context.getSource())))));
     }
 
