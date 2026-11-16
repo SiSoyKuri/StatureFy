@@ -46,13 +46,16 @@ public abstract class ModelFeatureRenderScaleMixin {
         if (profile.headScale() == 1.0F || !(submit.model() instanceof HumanoidModel<?> model)) {
             return;
         }
+        // Paridad con 26.3: all00ed el head scale se aplicaba dos veces (submit-time
+        // y draw-time), el look aprobado corresponde a headScale^2.
+        float headFactor = profile.headScale() * profile.headScale();
         staturefy$model = model;
         staturefy$headX = model.head.xScale;
         staturefy$headY = model.head.yScale;
         staturefy$headZ = model.head.zScale;
-        model.head.xScale *= profile.headScale();
-        model.head.yScale *= profile.headScale();
-        model.head.zScale *= profile.headScale();
+        model.head.xScale *= headFactor;
+        model.head.yScale *= headFactor;
+        model.head.zScale *= headFactor;
     }
 
     @Inject(
