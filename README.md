@@ -106,7 +106,7 @@ Feedback and contributions are always welcome!
 
 # Installation
 
-1. Install **Minecraft 1.21.11** with **Fabric Loader**.
+1. Install **Minecraft 26.3 or 1.21.11** with **Fabric Loader**.
 2. Install **Fabric API**.
 3. Install **Cloth Config API**.
 4. *(Optional)* Install **Mod Menu** for easy access to the configuration screen.
