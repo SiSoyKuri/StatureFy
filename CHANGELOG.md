@@ -1,6 +1,6 @@
 # Changelog
 
-# [1.1.1] - ENGLISH
+## [1.1.1] - ENGLISH
 
 ## Added
 
@@ -10,7 +10,7 @@
 
 - Nametags position is fixed in some situations.
 
-# [1.1.1] - ESPAÑOL
+## [1.1.1] - ESPAÑOL
 
 ## Añadido
 
