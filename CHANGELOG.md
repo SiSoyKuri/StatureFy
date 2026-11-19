@@ -1,5 +1,25 @@
 # Changelog
 
+# [1.1.1] - ENGLISH
+
+## Added
+
+1. Essential mod compat added
+
+## Changed
+
+- Nametags position is fixed in some situations.
+
+# [1.1.1] - ESPAÑOL
+
+## Añadido
+
+1. Se ha añadido compatibilidad con Esential mod
+
+## Modificado
+
+- Se ha corregido la posición de nametags en algunas situaciones.
+
 ## [1.1.0] - 2026-11-15
 
 ### Added
